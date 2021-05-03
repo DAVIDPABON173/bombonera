@@ -27,9 +27,6 @@ public class RepositorioAlquilerMysql implements RepositorioAlquiler {
     @SqlStatement(namespace = "alquiler", value = "existEnFechaYRangoHorario")
     private static String sqlExistEnFechaYRangoHorario;
 
-    @SqlStatement(namespace = "alquiler", value = "esHoyFechaDeSolicitudYLaFechaAlquilerNoEsHoy")
-    private static String sqlEsHoyFechaDeSolicitudYLaFechaAlquilerNoEsHoy;
-
     public RepositorioAlquilerMysql(CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate) {
         this.customNamedParameterJdbcTemplate = customNamedParameterJdbcTemplate;
     }
@@ -50,15 +47,8 @@ public class RepositorioAlquilerMysql implements RepositorioAlquiler {
     public Boolean existeAlquilerEnFechaYRangoHoras(LocalDate fechaAlquiler, LocalTime horaInicio, LocalTime horaFin) {
         MapSqlParameterSource paramSource = new MapSqlParameterSource();
         paramSource.addValue("fecha_alquiler", fechaAlquiler);
-        paramSource.addValue("hora_inicio", horaInicio);
-        paramSource.addValue("hora_fin", horaFin);
+        paramSource.addValue("hora_inicio", LocalTime.now());
+        paramSource.addValue("hora_fin", LocalTime.now());
         return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().queryForObject(sqlExistEnFechaYRangoHorario, paramSource, Boolean.class);
-    }
-
-    @Override
-    public boolean esHoyFechaDeSolicitudYLaFechaAlquilerNoEsHoy(Long id) {
-        MapSqlParameterSource paramSource = new MapSqlParameterSource();
-        paramSource.addValue("id", id);
-        return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().queryForObject(sqlEsHoyFechaDeSolicitudYLaFechaAlquilerNoEsHoy, paramSource, Boolean.class);
     }
 }

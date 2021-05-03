@@ -21,7 +21,7 @@ public class AlquilerTestDataBuider {
     public AlquilerTestDataBuider() {
 
         documento = "12345";
-        fechaSolicitud = LocalDateTime.of(2021, 04, 30, 6, 00, 00);
+        fechaSolicitud = LocalDateTime.now();
         fechaAlquiler = LocalDate.now().plusDays(1).getDayOfWeek().toString() != NOT_WORKING_WEDNESDAY ? LocalDate.now().plusDays(1) : LocalDate.now().plusDays(2);
         horaInicio = LocalTime.of(8, 00, 00);
         horaFin = LocalTime.of(10, 00, 00);

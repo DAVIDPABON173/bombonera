@@ -33,7 +33,6 @@ public interface RepositorioAlquiler {
      */
     Boolean existeAlquilerEnFechaYRangoHoras(LocalDate fechaAlquiler, LocalTime horaInicio, LocalTime horaFin);
 
-    boolean esHoyFechaDeSolicitudYLaFechaAlquilerNoEsHoy(Long id);
 
 
 }

@@ -37,10 +37,16 @@ pipeline {
       }
     }
 
+    stage('Permisos gradlew') {
+      steps{
+        echo "------------>Permisos gradlew<------------"
+        sh 'chmod +x ./gradlew'
+      }
+    }
+
 	stage('Clean') {
       steps{
         echo "------------>Clean<------------"
-        sh 'chmod +x ./gradlew'
         sh './gradlew --b ./microservicio/build.gradle clean'
       }
     }
@@ -49,8 +55,6 @@ pipeline {
       steps{
         echo "------------>Compile & Unit Tests<------------"
 		sh './gradlew --b ./microservicio/build.gradle test'
-
-
       }
     }
 
@@ -58,7 +62,7 @@ pipeline {
       steps{
         echo '------------>Análisis de código estático<------------'
         withSonarQubeEnv('Sonar') {
-sh "${tool name: 'SonarScanner', type:'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner -x -Dproject.settings=sonar-project.properties"
+            sh "${tool name: 'SonarScanner', type:'hudson.plugins.sonar.SonarRunnerInstallation'}/bin/sonar-scanner -Dproject.settings=./microservicio/sonar-project.properties"
         }
       }
     }

@@ -17,15 +17,22 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = ApplicationMock.class)
 @WebMvcTest(ComandoControladorAlquiler.class)
 public class ComandoControladorAlquilerTest {
+
+    private static final String HORARIO_NO_DISPONIBLE = "El horario de alquiler solicitado no se encuentra disponible.";
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -44,6 +51,25 @@ public class ComandoControladorAlquilerTest {
                 .content(objectMapper.writeValueAsString(alquiler)))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{'valor': 3}"));
+    }
+
+    @Test
+    public void deberiaNoPermitirCrearUnAlquilerPorDisponibilidadHoraria() throws Exception {
+        // arrange
+        LocalDateTime fechaSolicitud = LocalDateTime.of(2021, 05, 07, 00, 00, 00);
+        LocalDate fechaAlquiler = LocalDate.of(2021, 05, 07); // dia Jueves
+        LocalTime horaInicio = LocalTime.of(5, 00);
+        LocalTime horaFin = LocalTime.of(7, 00);
+        ComandoAlquiler alquiler = new ComandoAlquilerTestDataBuilder()
+                .conFechaSolicitud(fechaSolicitud).conFechaAlquiler(fechaAlquiler)
+                .conHoraInicio(horaInicio).conHoraFin(horaFin).build();
+        // act - assert
+        mocMvc.perform(post("/alquiler")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(alquiler)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$", not(empty())))
+                .andExpect(jsonPath("$.mensaje", containsString(HORARIO_NO_DISPONIBLE)));
     }
 
 

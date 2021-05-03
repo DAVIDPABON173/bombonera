@@ -47,8 +47,8 @@ public class RepositorioAlquilerMysql implements RepositorioAlquiler {
     public Boolean existeAlquilerEnFechaYRangoHoras(LocalDate fechaAlquiler, LocalTime horaInicio, LocalTime horaFin) {
         MapSqlParameterSource paramSource = new MapSqlParameterSource();
         paramSource.addValue("fecha_alquiler", fechaAlquiler);
-        paramSource.addValue("hora_inicio", LocalTime.now());
-        paramSource.addValue("hora_fin", LocalTime.now());
+        paramSource.addValue("hora_inicio", horaInicio);
+        paramSource.addValue("hora_fin", horaFin);
         return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().queryForObject(sqlExistEnFechaYRangoHorario, paramSource, Boolean.class);
     }
 }

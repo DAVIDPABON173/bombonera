@@ -20,6 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(ConsultaControladorAlquiler.class)
 public class ConsultaControladorAlquilerTest {
 
+    private static final String ALQUILER_NO_ENCONTRADO = "Alquiler no encontrado.";
+
     @Autowired
     private MockMvc mocMvc;
 
@@ -45,5 +47,17 @@ public class ConsultaControladorAlquilerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", not(empty())))
                 .andExpect(jsonPath("$.documento", notNullValue()));
+    }
+
+    @Test
+    public void buscarArrojarExcepcionAlBuscarUnAlquilerPorId() throws Exception {
+        // arrange
+        Long id = 600L;
+        // act - assert
+        mocMvc.perform(get("/alquiler/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$", not(empty())))
+                .andExpect(jsonPath("$.mensaje", containsString(ALQUILER_NO_ENCONTRADO)));
     }
 }

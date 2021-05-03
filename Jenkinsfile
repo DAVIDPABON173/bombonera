@@ -40,6 +40,7 @@ pipeline {
 	stage('Clean') {
       steps{
         echo "------------>Clean<------------"
+        sh 'chmod +x ./gradlew'
         sh './gradlew --b ./microservicio/build.gradle clean'
       }
     }
@@ -47,7 +48,6 @@ pipeline {
     stage('Compile & Unit Tests') {
       steps{
         echo "------------>Compile & Unit Tests<------------"
-		sh 'chmod +x ./gradlew'
 		sh './gradlew --b ./build.gradle test'
 
 

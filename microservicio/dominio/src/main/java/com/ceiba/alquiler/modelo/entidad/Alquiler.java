@@ -63,7 +63,7 @@ public class Alquiler {
 
     private Double calcularValorPagar(LocalDate fechaAlquiler, LocalTime horaInicio, LocalTime horaFin) {
         Integer cantidadHoras = this.getCantidadHoras(horaInicio, horaFin);
-        Double valorPagado = 0d;
+        double valorPagado;
         // los dias martes y jueves se aplica un 25% Descto.
         if (fechaAlquiler.getDayOfWeek().toString().equals(TUESDAY) || fechaAlquiler.getDayOfWeek().toString().equals(THURSDAY)) {
             valorPagado = (cantidadHoras * VALOR_HORA) - ((cantidadHoras * VALOR_HORA) * 0.25);
@@ -84,7 +84,7 @@ public class Alquiler {
     }
 
     private void validarSiHayServicioEnFechaAlquiler(LocalDate fechaAlquiler) {
-        if (fechaAlquiler.getDayOfWeek().toString() == NOT_WORKING_WEDNESDAY) {
+        if (fechaAlquiler.getDayOfWeek().toString().equals(NOT_WORKING_WEDNESDAY)) {
             throw new ExcepcionValorInvalido(EL_DIA_MIERCOLES_NO_HAY_SERVICIO);
         }
     }

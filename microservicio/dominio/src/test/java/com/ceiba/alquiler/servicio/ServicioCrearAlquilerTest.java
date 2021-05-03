@@ -121,12 +121,28 @@ public class ServicioCrearAlquilerTest {
     }
 
     @Test
-    public void deberiaCalcularValorPagadoPorHorasAlquilerAplicando25PorcientoDescto() {
+    public void deberiaCalcularValorPagadoPorHorasAlquilerAplicando25PorcientoDesctoMartes() {
         // arrange
         LocalDateTime fechaSolicitud = LocalDateTime.of(2021, 04, 30, 00, 00, 00);
         LocalDate fechaAlquiler = LocalDate.of(2021, 05, 04); // dia martes
         Double valorPagadoDosHorasAplicando25PorcientoDescuentoTest = 135000d;
         AlquilerTestDataBuider alquilerTestDataBuider = new AlquilerTestDataBuider().conFechaSolicitud(fechaSolicitud).conFechaAlquiler(fechaAlquiler);
+        // act - assert
+        assertEquals(valorPagadoDosHorasAplicando25PorcientoDescuentoTest, alquilerTestDataBuider.build().getValorPagado());
+
+    }
+
+    @Test
+    public void deberiaCalcularValorPagadoPorHorasAlquilerAplicando25PorcientoDesctoJueves() {
+        // arrange
+        LocalDateTime fechaSolicitud = LocalDateTime.of(2021, 04, 30, 00, 00, 00);
+        LocalDate fechaAlquiler = LocalDate.of(2021, 05, 06); // dia Jueves
+        LocalTime horaInicio = LocalTime.of(10, 00);
+        LocalTime horaFin = LocalTime.of(14, 00);
+        Double valorPagadoDosHorasAplicando25PorcientoDescuentoTest = 270000d;
+        AlquilerTestDataBuider alquilerTestDataBuider = new AlquilerTestDataBuider()
+                .conFechaSolicitud(fechaSolicitud).conFechaAlquiler(fechaAlquiler)
+                .conHoraInicio(horaInicio).conHoraFin(horaFin);
         // act - assert
         assertEquals(valorPagadoDosHorasAplicando25PorcientoDescuentoTest, alquilerTestDataBuider.build().getValorPagado());
 

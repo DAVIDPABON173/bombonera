@@ -34,8 +34,7 @@ public class DaoAlquilerMysql implements DaoAlquiler {
         MapSqlParameterSource paramSource = new MapSqlParameterSource();
         paramSource.addValue("id", id);
         List<DtoAlquiler> list = this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().query(sqlBuscar, paramSource, new MapeoAlquiler());
-        if(!list.isEmpty()) return list.get(0);
-        return null;
+        return !list.isEmpty() ?  list.get(0) : null;
     }
 
 

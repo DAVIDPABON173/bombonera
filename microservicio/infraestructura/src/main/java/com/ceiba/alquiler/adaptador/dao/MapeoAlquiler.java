@@ -17,7 +17,6 @@ public class MapeoAlquiler implements RowMapper<DtoAlquiler>, MapperResult {
         Long id = resultSet.getLong("id");
         String documento = resultSet.getString("documento");
         LocalDateTime fechaSolicitud = extraerLocalDateTime(resultSet, "fecha_solicitud");
-        ;
         LocalDate fechaAlquiler = extraerLocalDate(resultSet, "fecha_alquiler");
         LocalTime horaInicio = extraerLocalTime(resultSet, "hora_inicio");
         LocalTime horaFin = extraerLocalTime(resultSet, "hora_fin");

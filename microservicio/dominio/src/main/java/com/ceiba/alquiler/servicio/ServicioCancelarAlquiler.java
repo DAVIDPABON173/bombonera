@@ -6,7 +6,7 @@ import com.ceiba.alquiler.puerto.repositorio.RepositorioAlquiler;
 
 import java.time.LocalDate;
 
-public class ServicioEliminarAlquiler {
+public class ServicioCancelarAlquiler {
 
     private static final String CANCELACION_EXITOSA_SE_APLICA_DEVOLUCION_PORCENTAJE_DEL_PAGO = "Cancelación exitosa!. se aplica devolución del 90% del valor pagado: $ ";
     private static final String CANCELACION_EXITOSA_NO_APLICA_DEVOLUCION_PORCENTAJE_DEL_PAGO = "Cancelación exitosa!. No aplica devolución del pago";
@@ -15,7 +15,7 @@ public class ServicioEliminarAlquiler {
     private final RepositorioAlquiler repositorioAlquiler;
     private final DaoAlquiler daoAlquiler;
 
-    public ServicioEliminarAlquiler(RepositorioAlquiler repositorioAlquiler, DaoAlquiler daoAlquiler) {
+    public ServicioCancelarAlquiler(RepositorioAlquiler repositorioAlquiler, DaoAlquiler daoAlquiler) {
         this.repositorioAlquiler = repositorioAlquiler;
         this.daoAlquiler = daoAlquiler;
     }

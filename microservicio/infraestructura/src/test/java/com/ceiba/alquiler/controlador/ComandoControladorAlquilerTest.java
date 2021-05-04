@@ -34,6 +34,9 @@ public class ComandoControladorAlquilerTest {
 
     private static final String HORARIO_NO_DISPONIBLE = "El horario de alquiler solicitado no se encuentra disponible.";
 
+    private static final String CANCELACION_EXITOSA_SE_APLICA_DEVOLUCION_PORCENTAJE_DEL_PAGO = "Cancelación exitosa!. se aplica devolución del 90% del valor pagado: $ ";
+    private static final String CANCELACION_EXITOSA_NO_APLICA_DEVOLUCION_PORCENTAJE_DEL_PAGO = "Cancelación exitosa!. No aplica devolución del pago";
+
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -50,7 +53,8 @@ public class ComandoControladorAlquilerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(alquiler)))
                 .andExpect(status().isOk())
-                .andExpect(content().json("{'valor': 3}"));
+                .andExpect(jsonPath("$", not(empty())))
+                .andExpect(jsonPath("$.valor", any(Integer.class)));
     }
 
     @Test
@@ -74,14 +78,29 @@ public class ComandoControladorAlquilerTest {
 
 
     @Test
-    public void deberiaEliminarUnAlquiler() throws Exception {
+    public void deberiaCancelarUnAlquilerYNoAplicarDevolucion() throws Exception {
         // arrange
         Long id = 1L;
 
         // act - assert
         mocMvc.perform(delete("/alquiler/{id}", id)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.valor", containsString(CANCELACION_EXITOSA_NO_APLICA_DEVOLUCION_PORCENTAJE_DEL_PAGO)));
     }
+
+
+    @Test
+    public void deberiaCancelarUnAlquilerYAplicarDevolucion() throws Exception {
+        // arrange
+        Long id = 3L;
+
+        // act - assert
+        mocMvc.perform(delete("/alquiler/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.valor", containsString(CANCELACION_EXITOSA_SE_APLICA_DEVOLUCION_PORCENTAJE_DEL_PAGO)));
+    }
+
+
 }

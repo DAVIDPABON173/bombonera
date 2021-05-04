@@ -1,10 +1,8 @@
 package com.ceiba.alquiler.servicio;
 
 import com.ceiba.alquiler.modelo.dto.DtoAlquiler;
-import com.ceiba.alquiler.modelo.entidad.Alquiler;
 import com.ceiba.alquiler.puerto.dao.DaoAlquiler;
 import com.ceiba.alquiler.puerto.repositorio.RepositorioAlquiler;
-import com.ceiba.alquiler.servicio.testdatabuilder.AlquilerTestDataBuider;
 import com.ceiba.alquiler.servicio.testdatabuilder.DtoAlquilerTestDataBuilder;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -14,7 +12,7 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ServicioEliminarAlquilerTest {
+public class ServicioCancelarAlquilerTest {
 
     private static final String CANCELACION_EXITOSA_SE_APLICA_DEVOLUCION_PORCENTAJE_DEL_PAGO = "Cancelación exitosa!. se aplica devolución del 90% del valor pagado: $ ";
     private static final String CANCELACION_EXITOSA_NO_APLICA_DEVOLUCION_PORCENTAJE_DEL_PAGO = "Cancelación exitosa!. No aplica devolución del pago";
@@ -33,9 +31,9 @@ public class ServicioEliminarAlquilerTest {
         DtoAlquiler dtoAlquiler = dtoAlquilerTestDataBuilder.build();
         Mockito.when(daoAlquiler.buscar(Mockito.anyLong())).thenReturn(dtoAlquiler);
         Mockito.doNothing().when(repositorioAlquiler).eliminar(Mockito.anyLong());
-        ServicioEliminarAlquiler servicioEliminarAlquiler = new ServicioEliminarAlquiler(repositorioAlquiler, daoAlquiler);
+        ServicioCancelarAlquiler servicioCancelarAlquiler = new ServicioCancelarAlquiler(repositorioAlquiler, daoAlquiler);
         // act - assert
-        String respuesta = servicioEliminarAlquiler.ejecutar(Mockito.anyLong());
+        String respuesta = servicioCancelarAlquiler.ejecutar(Mockito.anyLong());
         assertEquals(respuesta, CANCELACION_EXITOSA_NO_APLICA_DEVOLUCION_PORCENTAJE_DEL_PAGO);
     }
 
@@ -55,9 +53,9 @@ public class ServicioEliminarAlquilerTest {
 
         Mockito.when(daoAlquiler.buscar(Mockito.anyLong())).thenReturn(dtoAlquiler);
         Mockito.doNothing().when(repositorioAlquiler).eliminar(Mockito.anyLong());
-        ServicioEliminarAlquiler servicioEliminarAlquiler = new ServicioEliminarAlquiler(repositorioAlquiler, daoAlquiler);
+        ServicioCancelarAlquiler servicioCancelarAlquiler = new ServicioCancelarAlquiler(repositorioAlquiler, daoAlquiler);
         // act - assert
-        String respuesta = servicioEliminarAlquiler.ejecutar(Mockito.anyLong());
+        String respuesta = servicioCancelarAlquiler.ejecutar(Mockito.anyLong());
         assertEquals(respuesta, CANCELACION_EXITOSA_SE_APLICA_DEVOLUCION_PORCENTAJE_DEL_PAGO + (dtoAlquiler.getValorPagado() * PORCENTAJE_DEVOLUCION));
     }
 

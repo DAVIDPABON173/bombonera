@@ -4,10 +4,6 @@ import com.ceiba.alquiler.modelo.entidad.Alquiler;
 import com.ceiba.alquiler.puerto.repositorio.RepositorioAlquiler;
 import com.ceiba.dominio.excepcion.ExcepcionDiaNoLaboral;
 import com.ceiba.dominio.excepcion.ExcepcionHorarioNoDisponible;
-import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
-
-import java.time.LocalDate;
-
 public class ServicioCrearAlquiler {
 
     private static final String HORARIO_NO_DISPONIBLE = "El horario de alquiler solicitado no se encuentra disponible.";

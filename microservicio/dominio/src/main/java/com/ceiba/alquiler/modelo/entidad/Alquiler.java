@@ -1,6 +1,7 @@
 package com.ceiba.alquiler.modelo.entidad;
 
 import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
+import com.ceiba.dominio.time.TimeUtil;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -19,13 +20,11 @@ public class Alquiler {
     private static final String SE_DEBE_INGRESAR_FECHA_ALQUILER = "Se debe ingresar la fecha de alquiler";
     private static final String SE_DEBE_INGRESAR_FECHA_SOLICITUD = "Se debe ingresar la fecha de solicitud";
     private static final String SE_DEBE_INGRESAR_HORA_INICIO = "Se debe ingresar la hora de inicio del alquiler";
-    private static final String SE_DEBE_INGRESAR_HORA_FIN = "Se debe ingresar la hora de inicio del alquiler";
+    private static final String SE_DEBE_INGRESAR_HORA_FIN = "Se debe ingresar la hora fin del alquiler";
 
-    private static final String EL_DIA_MIERCOLES_NO_HAY_SERVICIO = "El dia miercoles no hay servicio.";
-    private static final String EL_ALQUILER_SE_REALIZA_POR_RANGO_HORAS_EXACTAS = "Se debe ingresar un rango de horas validas.";
+
+    private static final String EL_ALQUILER_SE_REALIZA_POR_RANGO_HORAS_EXACTAS = "El Alquiler solo se realiza por horas exactas sin minutos adicionales. Formato ej: HH:00";
     private static final String HORA_INICIO_NO_DEBE_SER_MAYOR_O_IGUAL_A_HORA_FIN = "La hora de inciio no debe ser mayor o igual a la hora fin.";
-
-    private static final String NOT_WORKING_WEDNESDAY = "WEDNESDAY";
 
     private static final String TUESDAY = "TUESDAY";
     private static final String THURSDAY = "THURSDAY";
@@ -49,8 +48,8 @@ public class Alquiler {
         validarObligatorio(fechaSolicitud, SE_DEBE_INGRESAR_FECHA_SOLICITUD);
         validarObligatorio(horaInicio, SE_DEBE_INGRESAR_HORA_INICIO);
         validarObligatorio(horaFin, SE_DEBE_INGRESAR_HORA_FIN);
-        validarSiHayServicioEnFechaAlquiler(fechaAlquiler);
         validarRangoHorarioAlquiler(horaInicio, horaFin);
+        validarTiempoAlquilerSoloPorHorasEnteras(horaInicio, horaFin);
 
         this.id = id;
         this.documento = documento;
@@ -61,8 +60,8 @@ public class Alquiler {
         this.valorPagado = this.calcularValorPagar(fechaAlquiler, horaInicio, horaFin);
     }
 
-    private Double calcularValorPagar(LocalDate fechaAlquiler, LocalTime horaInicio, LocalTime horaFin) {
-        Integer cantidadHoras = this.getCantidadHoras(horaInicio, horaFin);
+    private double calcularValorPagar(LocalDate fechaAlquiler, LocalTime horaInicio, LocalTime horaFin) {
+        int cantidadHoras = TimeUtil.calcularDiferenciaEntreHoras(horaInicio, horaFin);
         double valorPagado;
         // los dias martes y jueves se aplica un 25% Descto.
         if (fechaAlquiler.getDayOfWeek().toString().equals(TUESDAY) || fechaAlquiler.getDayOfWeek().toString().equals(THURSDAY)) {
@@ -79,23 +78,14 @@ public class Alquiler {
         return  valorPagado;
     }
 
-    private Integer getCantidadHoras(LocalTime horaInicio, LocalTime horaFin) {
-        return horaFin.getHour() - horaInicio.getHour();
-    }
-
-    private void validarSiHayServicioEnFechaAlquiler(LocalDate fechaAlquiler) {
-        if (fechaAlquiler.getDayOfWeek().toString().equals(NOT_WORKING_WEDNESDAY)) {
-            throw new ExcepcionValorInvalido(EL_DIA_MIERCOLES_NO_HAY_SERVICIO);
-        }
-    }
-
     private void validarRangoHorarioAlquiler(LocalTime horaInicio, LocalTime horaFin) {
         if (horaInicio.getHour() >= horaFin.getHour()) {
             throw new ExcepcionValorInvalido(HORA_INICIO_NO_DEBE_SER_MAYOR_O_IGUAL_A_HORA_FIN);
         }
+    }
 
-        if (horaFin.getMinute() > 0 || horaInicio.getMinute() > 0
-                || horaFin.getSecond() > 0 || horaInicio.getSecond() > 0) {
+    private void validarTiempoAlquilerSoloPorHorasEnteras(LocalTime horaInicio, LocalTime horaFin){
+        if (horaFin.getMinute() > 0 || horaInicio.getMinute() > 0) {
             throw new ExcepcionValorInvalido(EL_ALQUILER_SE_REALIZA_POR_RANGO_HORAS_EXACTAS);
         }
     }

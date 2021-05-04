@@ -38,7 +38,7 @@ public class ConsultaControladorAlquilerTest {
     }
 
     @Test
-    public void buscarBuscarUnAlquilerPorId() throws Exception {
+    public void deberiaBuscarUnAlquilerPorId() throws Exception {
         // arrange
         Long id = 2L;
         // act - assert
@@ -50,7 +50,7 @@ public class ConsultaControladorAlquilerTest {
     }
 
     @Test
-    public void buscarArrojarExcepcionAlBuscarUnAlquilerPorId() throws Exception {
+    public void deberiaLanzarExcepcionAlBuscarYNoEncontrarUnAlquilerPorId() throws Exception {
         // arrange
         Long id = 600L;
         // act - assert

@@ -4,9 +4,7 @@ import com.ceiba.BasePrueba;
 import com.ceiba.alquiler.modelo.entidad.Alquiler;
 import com.ceiba.alquiler.puerto.repositorio.RepositorioAlquiler;
 import com.ceiba.alquiler.servicio.testdatabuilder.AlquilerTestDataBuider;
-import com.ceiba.dominio.excepcion.ExcepcionLongitudValor;
-import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
-import com.ceiba.dominio.excepcion.ExcepcionValorObligatorio;
+import com.ceiba.dominio.excepcion.*;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -23,10 +21,10 @@ public class ServicioCrearAlquilerTest {
     private static final String SE_DEBE_INGRESAR_FECHA_ALQUILER = "Se debe ingresar la fecha de alquiler";
     private static final String SE_DEBE_INGRESAR_FECHA_SOLICITUD = "Se debe ingresar la fecha de solicitud";
     private static final String SE_DEBE_INGRESAR_HORA_INICIO = "Se debe ingresar la hora de inicio del alquiler";
-    private static final String SE_DEBE_INGRESAR_HORA_FIN = "Se debe ingresar la hora de inicio del alquiler";
+    private static final String SE_DEBE_INGRESAR_HORA_FIN = "Se debe ingresar la hora fin del alquiler";
 
     private static final String EL_DIA_MIERCOLES_NO_HAY_SERVICIO = "El dia miercoles no hay servicio.";
-    private static final String EL_ALQUILER_SE_REALIZA_POR_RANGO_HORAS_EXACTAS = "Se debe ingresar un rango de horas validas.";
+    private static final String EL_ALQUILER_SE_REALIZA_POR_RANGO_HORAS_EXACTAS = "El Alquiler solo se realiza por horas exactas sin minutos adicionales. Formato ej: HH:00";
     private static final String HORA_INICIO_NO_DEBE_SER_MAYOR_O_IGUAL_A_HORA_FIN = "La hora de inciio no debe ser mayor o igual a la hora fin.";
 
     private static final String HORARIO_NO_DISPONIBLE = "El horario de alquiler solicitado no se encuentra disponible.";
@@ -84,8 +82,11 @@ public class ServicioCrearAlquilerTest {
         // arrange
         LocalDate fechaAlquiler = LocalDate.of(2021, 04, 28); // dia miercoles
         AlquilerTestDataBuider alquilerTestDataBuider = new AlquilerTestDataBuider().conFechaAlquiler(fechaAlquiler);
+        Alquiler alquilerTest = alquilerTestDataBuider.build();
+        RepositorioAlquiler repositorioAlquiler = Mockito.mock(RepositorioAlquiler.class);
+        ServicioCrearAlquiler servicioCrearAlquiler = new ServicioCrearAlquiler(repositorioAlquiler);
         // act - assert
-        BasePrueba.assertThrows(() -> alquilerTestDataBuider.build(), ExcepcionValorInvalido.class, EL_DIA_MIERCOLES_NO_HAY_SERVICIO);
+        BasePrueba.assertThrows(() -> servicioCrearAlquiler.ejecutar(alquilerTest), ExcepcionDiaNoLaboral.class, EL_DIA_MIERCOLES_NO_HAY_SERVICIO);
     }
 
     @Test
@@ -109,7 +110,7 @@ public class ServicioCrearAlquilerTest {
     }
 
     @Test
-    public void validarNoDisponibilidadHorariaDeAlquiler() {
+    public void deberiaLanzarUnaExcepcionPorHorarioAlquilerNoDisponible() {
         // arrange
         AlquilerTestDataBuider alquilerTestDataBuider = new AlquilerTestDataBuider();
         RepositorioAlquiler repositorioAlquiler = Mockito.mock(RepositorioAlquiler.class);
@@ -117,7 +118,7 @@ public class ServicioCrearAlquilerTest {
         Mockito.when(repositorioAlquiler.existeAlquilerEnFechaYRangoHoras(alquilerTest.getFechaAlquiler(), alquilerTest.getHoraInicio(), alquilerTest.getHoraFin())).thenReturn(true);
         ServicioCrearAlquiler servicioCrearAlquiler = new ServicioCrearAlquiler(repositorioAlquiler);
         // act - assert
-        BasePrueba.assertThrows(() -> servicioCrearAlquiler.ejecutar(alquilerTest), ExcepcionValorInvalido.class, HORARIO_NO_DISPONIBLE);
+        BasePrueba.assertThrows(() -> servicioCrearAlquiler.ejecutar(alquilerTest), ExcepcionHorarioNoDisponible.class, HORARIO_NO_DISPONIBLE);
     }
 
     @Test

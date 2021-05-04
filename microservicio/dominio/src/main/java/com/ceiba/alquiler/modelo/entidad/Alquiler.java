@@ -2,16 +2,17 @@ package com.ceiba.alquiler.modelo.entidad;
 
 import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
 import com.ceiba.dominio.time.TimeUtil;
+import lombok.AccessLevel;
 import lombok.Getter;
-
+import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-
 import static com.ceiba.dominio.ValidadorArgumento.validarLongitudMinima;
 import static com.ceiba.dominio.ValidadorArgumento.validarObligatorio;
 
 @Getter
+@Setter(AccessLevel.PRIVATE)
 public class Alquiler {
 
     private static final String SE_DEBE_INGRESAR_DOCUMENTO_PERSONA = "Se debe ingresar el documento de la persona";
@@ -51,20 +52,20 @@ public class Alquiler {
         validarRangoHorarioAlquiler(horaInicio, horaFin);
         validarTiempoAlquilerSoloPorHorasEnteras(horaInicio, horaFin);
 
-        this.id = id;
-        this.documento = documento;
-        this.fechaSolicitud = fechaSolicitud;
-        this.fechaAlquiler = fechaAlquiler;
-        this.horaInicio = horaInicio;
-        this.horaFin = horaFin;
-        this.valorPagado = this.calcularValorPagar(fechaAlquiler, horaInicio, horaFin);
+        setId(id);
+        setDocumento(documento);
+        setFechaSolicitud(fechaSolicitud);
+        setFechaAlquiler(fechaAlquiler);
+        setHoraInicio(horaInicio);
+        setHoraFin(horaFin);
+        setValorPagado(this.calcularValorPagar());
     }
 
-    private double calcularValorPagar(LocalDate fechaAlquiler, LocalTime horaInicio, LocalTime horaFin) {
-        int cantidadHoras = TimeUtil.calcularDiferenciaEntreHoras(horaInicio, horaFin);
+    private double calcularValorPagar() {
+        int cantidadHoras = TimeUtil.calcularDiferenciaEntreHoras(this.horaInicio, this.horaFin);
         double valorPagado;
         // los dias martes y jueves se aplica un 25% Descto.
-        if (fechaAlquiler.getDayOfWeek().toString().equals(TUESDAY) || fechaAlquiler.getDayOfWeek().toString().equals(THURSDAY)) {
+        if (this.fechaAlquiler.getDayOfWeek().toString().equals(TUESDAY) || this.fechaAlquiler.getDayOfWeek().toString().equals(THURSDAY)) {
             valorPagado = (cantidadHoras * VALOR_HORA) - ((cantidadHoras * VALOR_HORA) * 0.25);
         } else {
             if (cantidadHoras > 2) {

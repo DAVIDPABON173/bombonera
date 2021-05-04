@@ -2,8 +2,8 @@ package com.ceiba.alquiler.controlador;
 
 import com.ceiba.ComandoRespuesta;
 import com.ceiba.alquiler.comando.ComandoAlquiler;
-import com.ceiba.alquiler.comando.manejador.ManejadorCrearAlquiler;
 import com.ceiba.alquiler.comando.manejador.ManejadorCancelarAlquiler;
+import com.ceiba.alquiler.comando.manejador.ManejadorCrearAlquiler;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,8 +2,8 @@ package com.ceiba.configuracion;
 
 import com.ceiba.alquiler.puerto.dao.DaoAlquiler;
 import com.ceiba.alquiler.puerto.repositorio.RepositorioAlquiler;
-import com.ceiba.alquiler.servicio.ServicioCrearAlquiler;
 import com.ceiba.alquiler.servicio.ServicioCancelarAlquiler;
+import com.ceiba.alquiler.servicio.ServicioCrearAlquiler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

@@ -2,14 +2,10 @@ package com.ceiba.alquiler.controlador;
 
 import com.ceiba.ApplicationMock;
 import com.ceiba.alquiler.comando.ComandoAlquiler;
-import com.ceiba.alquiler.modelo.entidad.Alquiler;
-import com.ceiba.alquiler.puerto.repositorio.RepositorioAlquiler;
-import com.ceiba.alquiler.servicio.ServicioCrearAlquiler;
 import com.ceiba.alquiler.servicio.testdatabuilder.ComandoAlquilerTestDataBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
@@ -24,8 +20,8 @@ import java.time.LocalTime;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = ApplicationMock.class)

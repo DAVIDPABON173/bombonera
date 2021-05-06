@@ -1,15 +1,15 @@
 package com.ceiba.infraestructura.actuator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.ceiba.infraestructura.error.ErrorHealthCheck;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
-import com.ceiba.infraestructura.error.ErrorHealthCheck;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Configuration
 public class ManejadorHealthCheckBloques {

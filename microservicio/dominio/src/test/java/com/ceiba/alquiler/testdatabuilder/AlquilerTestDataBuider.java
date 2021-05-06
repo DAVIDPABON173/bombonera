@@ -1,14 +1,13 @@
-package com.ceiba.alquiler.servicio.testdatabuilder;
+package com.ceiba.alquiler.testdatabuilder;
 
 import com.ceiba.alquiler.modelo.entidad.Alquiler;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class AlquilerTestDataBuider {
-
-    private static final String NOT_WORKING_WEDNESDAY = "WEDNESDAY";
 
     private Long id;
     private String documento;
@@ -22,7 +21,7 @@ public class AlquilerTestDataBuider {
 
         documento = "12345";
         fechaSolicitud = LocalDateTime.now();
-        fechaAlquiler = LocalDate.now().plusDays(1).getDayOfWeek().toString() != NOT_WORKING_WEDNESDAY ? LocalDate.now().plusDays(1) : LocalDate.now().plusDays(2);
+        fechaAlquiler = !LocalDate.now().plusDays(1).getDayOfWeek().toString().equals(DayOfWeek.WEDNESDAY.toString()) ? LocalDate.now().plusDays(1) : LocalDate.now().plusDays(2);
         horaInicio = LocalTime.of(8, 00, 00);
         horaFin = LocalTime.of(10, 00, 00);
 

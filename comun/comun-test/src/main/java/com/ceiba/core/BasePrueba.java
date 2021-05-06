@@ -1,10 +1,10 @@
 package com.ceiba.core;
 
-import static org.junit.Assert.fail;
+import org.junit.Assert;
 
 import java.util.function.Supplier;
 
-import org.junit.Assert;
+import static org.junit.Assert.fail;
 
 public class BasePrueba {
 

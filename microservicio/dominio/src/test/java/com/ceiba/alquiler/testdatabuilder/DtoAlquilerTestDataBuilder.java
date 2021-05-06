@@ -1,4 +1,4 @@
-package com.ceiba.alquiler.servicio.testdatabuilder;
+package com.ceiba.alquiler.testdatabuilder;
 
 import com.ceiba.alquiler.modelo.dto.DtoAlquiler;
 

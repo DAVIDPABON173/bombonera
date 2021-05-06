@@ -2,7 +2,7 @@ package com.ceiba.alquiler.controlador;
 
 import com.ceiba.ApplicationMock;
 import com.ceiba.alquiler.comando.ComandoAlquiler;
-import com.ceiba.alquiler.servicio.testdatabuilder.ComandoAlquilerTestDataBuilder;
+import com.ceiba.alquiler.testdatabuilder.ComandoAlquilerTestDataBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;

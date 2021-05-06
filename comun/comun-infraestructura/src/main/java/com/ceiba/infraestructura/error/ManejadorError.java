@@ -1,8 +1,6 @@
 package com.ceiba.infraestructura.error;
 
 
-import java.util.concurrent.ConcurrentHashMap;
-
 import com.ceiba.dominio.excepcion.*;
 import com.ceiba.infraestructura.excepcion.ExcepcionRecursoNoEncontrado;
 import com.ceiba.infraestructura.excepcion.ExcepcionTecnica;
@@ -13,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 @ControllerAdvice
 public class ManejadorError extends ResponseEntityExceptionHandler {
